@@ -1,7 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
-require('dotenv').config()
+require('dotenv').config();
+const booksRoute = require('./routes/books');
+
+//middlewares
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+
+//routes
+app.use('/api/books', booksRoute);
 
 //connect to monogodb
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
