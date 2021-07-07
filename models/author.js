@@ -6,7 +6,8 @@ const AuthorSchema = new mongoose.Schema({
     required: true
   },
   age:{
-    type:Number
+    type:Number,
+    required: true
   }
 })
 
