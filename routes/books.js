@@ -21,4 +21,44 @@ router.post('/', async(req,res) => {
   })
 })
 
+//Get all BookSchema
+
+router.get('/', (req,res) => {
+  Book.find()
+  .then(books => res.send(books))
+  .catch(error => {
+    res.status(500).send("Something went wrong");
+  });
+})
+
+//Get the book by id
+router.get('/:bookId', async (req,res) => {
+  const book = await Book.findById(req.params.bookId);
+  if(!book) res.status(404).send("Book not found");
+  res.send(book);
+})
+
+//Update the book
+router.put('/:bookId', async (req,res) => {
+  const updatedBook = await Book.findByIdAndUpdate(req.params.bookId, {
+    name:req.body.bookName,
+    author: {
+      name:req.body.authorName,
+      age:req.body.authorAge
+    }
+  },
+  {new: true}
+)
+  if(!updatedBook) res.status(404).send("Book not found");
+  res.send(updatedBook);
+})
+
+//Delete book based on ID
+
+router.delete('/:bookId', async (req,res) => {
+  const book = await Book.findByIdAndRemove(req.params.bookId);
+  if(!book) res.status(404).send("Book with id not found");
+  res.send(book);
+})
+
 module.exports = router;
